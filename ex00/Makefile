@@ -7,7 +7,7 @@ SRC = $(wildcard *.cpp)
 OBJS = $(patsubst $(SRCS_PATH)%.cpp, $(OBJS_PATH)%.o, $(SRC))
 DEPS = $(patsubst $(SRCS_PATH)%.cpp, $(OBJS_PATH)%.d, $(SRC))
 
-NAME = easy_find
+NAME = btc
 
 CC = c++
 
