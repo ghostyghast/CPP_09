@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:21:10 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/19 20:41:43 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:36:30 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ class Date{
 		time_t		_value;
 		std::string	_str;
 
-		time_t	strToTime(const std::string str) const;
+		time_t		strToTime(const std::string str) const;
 		std::string	timeToStr(const time_t time) const;
+		std::string	*splitDate(std::string date) const;
 };
 
 std::ostream	&operator<<(std::ostream &stream, const Date &date);
+bool			operator!=(const std::tm &tm1, const std::tm &tm2);
 
 #endif

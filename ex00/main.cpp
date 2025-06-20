@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:21 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/19 15:40:40 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:44:46 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv)
 			throw std::ifstream::failure("");
 		BitcoinExchange	exchange(argv[1]);
 		exchange.output();
+		
 	}
 	catch (std::ifstream::failure& e)
 	{
