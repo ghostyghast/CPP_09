@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:04 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/19 19:23:55 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:26:35 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,36 @@ class BitcoinExchange{
 		BitcoinExchange(const char *input);
 		~BitcoinExchange();
 
+		class badInputException : public std::exception
+		{
+			public:
+				badInputException(std::string input) : _what("bad input => " + input) {}
+				~badInputException() throw() {}
+
+				const char	*what() const throw() {return this->_what.c_str();}
+
+			private:
+				std::string	_what;
+		};
+
+		class largeNumberException : public std::exception
+		{
+			public:
+				const char	*what() const throw() {return "too large a number";}
+		};
+
+		class negativeNumberException : public std::exception
+		{
+			public:
+				const char	*what() const throw() {return "number is negative";}
+		};
+
 		void	output();
 
 	private:
 		std::ifstream			_input_file;
 		std::map<Date, float>	_db;
 
-		void	parseDate(const std::string date);
-		void	inputToMap(const std::string filename);
 		void	csvToMap();
 
 		BitcoinExchange();

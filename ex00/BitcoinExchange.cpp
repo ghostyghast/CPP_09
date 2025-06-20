@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:31:52 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/19 20:53:17 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:49:42 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	BitcoinExchange::csvToMap()
 	{
 		size_t	comma = line.find(',');
 		string	date = line.substr(0, comma);
-		string	value = line.substr(comma);
+		string	value = line.substr(comma + 1);
 		
 		this->_db[date] = atof(value.c_str());
 	}
@@ -60,30 +60,28 @@ void	BitcoinExchange::csvToMap()
 
 void	BitcoinExchange::output()
 {
-	for (string line; getline(this->_input_file, line);)
+	string line;
+	while (getline(this->_input_file, line))
 	{
-		size_t	sep = line.find(" | ");
-		if (sep == string::npos)
+		try
 		{
-			cerr << "Error: bad input => " << line << '\n';
-			continue;
-		}
-		Date	date(line.substr(0, sep));
-		float	value = atof(line.substr(sep + 3).c_str());
+			size_t	sep = line.find(" | ");
+			if (sep == string::npos)
+				throw (badInputException(line));
+			Date	date(line.substr(0, sep));
+			float	value = atof(line.substr(sep + 3).c_str());
 
-		if (date.getTime() == -1)
-		{
-			cerr << "Error: bad input => " << line << '\n';
-			continue;
-		}
-		if (value < 0 || value > 1000)
-		{
+			if (date.getTime() == -1)
+				throw (badInputException(date.getStr()));
 			if (value < 0)
-				cerr << "Error: not positive number.\n";
-			else
-				cerr << "Error: too large a number.";
-			continue;
+				throw (negativeNumberException());
+			if (value > 1000)
+				throw (largeNumberException());
+			cout << date << " => " << value << " = " << "\n";
 		}
-		cout << date << " => " << value << " = " << "\n";
+		catch (std::exception &e)
+		{
+			cerr << "Error: " << e.what() << '\n';
+		}
 	}
 }
