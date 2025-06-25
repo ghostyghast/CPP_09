@@ -91,6 +91,8 @@ time_t	Date::strToTime(const std::string str) const
 	std::tm	new_time;
 	string *tokens = this->splitDate(str);
 
+	memset(&time, 0, sizeof(std::tm));
+
 	if (!tokens)
 		return (-1);
 
