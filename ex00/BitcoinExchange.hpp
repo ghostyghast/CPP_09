@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:04 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/20 15:26:35 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:24:57 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ class BitcoinExchange{
 				std::string	_what;
 		};
 
+		class dateNotFoundException : public std::exception
+		{
+			public:
+				const char	*what() const throw() {
+					return("date not in database");
+				}
+		};
+
 		class largeNumberException : public std::exception
 		{
 			public:
@@ -55,7 +63,8 @@ class BitcoinExchange{
 		std::ifstream			_input_file;
 		std::map<Date, float>	_db;
 
-		void	csvToMap();
+		void							csvToMap();
+		std::map<Date, float>::iterator	find_date(const Date &date);
 
 		BitcoinExchange();
 		BitcoinExchange &operator=(const BitcoinExchange &copy);

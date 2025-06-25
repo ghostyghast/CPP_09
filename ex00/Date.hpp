@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:21:10 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/20 17:36:30 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:19:38 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ class Date{
 		bool	operator>(const Date &date) const;
 		bool	operator<(const Date &date) const;
 
+		class InvalidDateException : public std::exception
+		{
+			public:
+				const char	*what() const throw() {
+					return("invalid date given");
+				}
+		};
+
+		class invalidFormatException : public std::exception
+		{
+			public:
+				const char	*what() const throw() {
+					return("invalid format given");
+				}
+		};
+
 	private:
 		time_t		_value;
 		std::string	_str;
@@ -46,6 +62,5 @@ class Date{
 };
 
 std::ostream	&operator<<(std::ostream &stream, const Date &date);
-bool			operator!=(const std::tm &tm1, const std::tm &tm2);
 
 #endif

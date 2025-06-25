@@ -6,12 +6,13 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:28:00 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/20 19:45:07 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:33:07 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Date.hpp"
 #include <cstdlib>
+#include <cstring>
 #include <sstream>
 
 using std::string;
@@ -74,9 +75,9 @@ bool	Date::operator<(const Date &date) const
 	return (this->_value < date._value);
 }
 
-bool	Date::operator>(const Date &copy) const
+bool	Date::operator>(const Date &date) const
 {
-	return (this->_value > copy._value);
+	return (this->_value > date._value);
 }
 
 std::ostream	&operator<<(std::ostream &stream, const Date &date)
@@ -92,23 +93,21 @@ time_t	Date::strToTime(const std::string str) const
 	string *tokens = this->splitDate(str);
 
 	memset(&time, 0, sizeof(std::tm));
-
+		
 	if (!tokens)
-		return (-1);
+		throw (invalidFormatException());
 
-	std::cout << "Tokens: ";
-	for (int i = 0; i < 3; i++)
-		std::cout << tokens[i] << ", ";
-	std::cout << '\n';
 	time.tm_year = strtod(tokens[0].c_str(), NULL) - 1900; 
-	time.tm_mon = strtod(tokens[1].c_str(), NULL);
+	time.tm_mon = strtod(tokens[1].c_str(), NULL) - 1;
 	time.tm_mday = strtod(tokens[2].c_str(), NULL);
 	delete[] tokens;
 
 	new_time = time;
 	mktime(&new_time);
-	if (time != new_time)
-		return (-1);
+	if (time.tm_mday != new_time.tm_mday
+		|| time.tm_mon != new_time.tm_mon
+		|| time.tm_year != new_time.tm_year)
+		throw InvalidDateException();
 	return (mktime(&time));
 }
 
@@ -118,7 +117,7 @@ string	Date::timeToStr(const time_t time) const
 	std::tm *tm = localtime(&time);
 
 	if (!tm)
-		return (ss.str());
+		throw InvalidDateException();
 	
 	ss << tm->tm_year << '-' << tm->tm_mon << '-' << tm->tm_mday;
 	
@@ -147,16 +146,9 @@ string	*Date::splitDate(string date) const
 		size_t	pos = date.find('-');
 		string	token = date.substr(0, pos);
 		tokens[i] = token;
-		date.erase(0, pos + token.size());
+		if (pos != string::npos)
+			pos += 1;
+		date.erase(0, pos + 1);
 	}
 	return tokens;
-}
-
-bool	operator!=(const std::tm &tm1, const std::tm &tm2)
-{
-	return (
-		tm1.tm_mday == tm2.tm_mday		&&
-		tm1.tm_mon == tm2.tm_mon		&&
-		tm1.tm_year == tm2.tm_year
-	);
 }

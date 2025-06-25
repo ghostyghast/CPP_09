@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:31:52 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/20 19:49:42 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:11:55 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,22 @@ void	BitcoinExchange::csvToMap()
 		string	date = line.substr(0, comma);
 		string	value = line.substr(comma + 1);
 		
-		this->_db[date] = atof(value.c_str());
+		try
+		{
+			this->_db[date] = atof(value.c_str());
+		}
+		catch(std::exception &e) 
+		{
+			cout << "Error: " << e.what() << '\n';
+		}
+	}
+	
+	cout << "Database: \n";
+	for (std::map<Date, float>::iterator it = this->_db.begin(); it != this->_db.end(); it++)
+	{
+		cout << "Date: " << it->first << '\n';
+		cout << "Time_t: " << it->first.getTime() << '\n';
+		// cout << "Value: " << it->second << '\n';
 	}
 }
 
@@ -77,11 +92,26 @@ void	BitcoinExchange::output()
 				throw (negativeNumberException());
 			if (value > 1000)
 				throw (largeNumberException());
-			cout << date << " => " << value << " = " << "\n";
+
+			float	new_value = value * this->find_date(date)->second;
+			// cout << "given value: " << value << '\n';
+			// cout << "lower bound value: " << this->_db.lower_bound(date)->second << '\n';
+			// cout << "lower bound date: " << this->_db.lower_bound(date)->first << '\n';
+			cout << date << " => " << value << " = " << new_value << "\n";
 		}
 		catch (std::exception &e)
 		{
 			cerr << "Error: " << e.what() << '\n';
 		}
 	}
+}
+
+std::map<Date, float>::iterator	BitcoinExchange::find_date(const Date &date)
+{
+	std::map<Date, float>::iterator it= this->_db.lower_bound(date);
+
+	if (it == this->_db.end())
+		throw(dateNotFoundException());
+
+	return (it);
 }
