@@ -11,7 +11,7 @@ NAME = btc
 
 CC = c++
 
-FLAGS = -Wall -Werror -Wextra -std=c++98 -g3 -D_GLIBCXX_DEBUG #-fsanitize=address
+FLAGS = -Wall -Werror -Wextra -std=c++98 -g3 #-D_GLIBCXX_DEBUG #-fsanitize=address
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.cpp
 	@mkdir -p $(OBJS_PATH)
