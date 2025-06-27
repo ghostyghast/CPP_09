@@ -106,9 +106,9 @@ void	BitcoinExchange::output()
 	}
 }
 
-std::map<Date, float>::iterator	BitcoinExchange::find_date(const Date &date)
+std::map<Date, double>::iterator	BitcoinExchange::find_date(const Date &date)
 {
-	std::map<Date, float>::iterator it= this->_db.lower_bound(date);
+	std::map<Date, double>::iterator it = this->_db.upper_bound(date);
 
 	if (it == this->_db.end())
 		throw(dateNotFoundException());

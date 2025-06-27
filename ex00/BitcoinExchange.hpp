@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:04 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/25 19:24:57 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:55:24 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ class BitcoinExchange{
 
 	private:
 		std::ifstream			_input_file;
-		std::map<Date, float>	_db;
+		std::map<Date, double>	_db;
 
-		void							csvToMap();
-		std::map<Date, float>::iterator	find_date(const Date &date);
+		void								csvToMap();
+		std::map<Date, double>::iterator	find_date(const Date &date);
 
 		BitcoinExchange();
 		BitcoinExchange &operator=(const BitcoinExchange &copy);
