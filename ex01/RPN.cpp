@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:34:46 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 21:20:07 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:23:16 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ const char	*RPN::invalidValueException::what() const throw()
 
 const char	*RPN::invalidOperatorException::what() const throw()
 {
-	return("invalid character");
+	return("invalid operator");
 }
 
 const char	*RPN::invalidinputException::what() const throw()
