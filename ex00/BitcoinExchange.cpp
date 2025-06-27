@@ -6,17 +6,20 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:31:52 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/25 22:11:55 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:04:54 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <cstdlib>
+#include <limits>
 
 using std::string;
 using std::ifstream;
 using std::cout;
 using std::cerr;
+
+// Constructors/Destructor
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -29,20 +32,24 @@ BitcoinExchange::BitcoinExchange(const char *input)
 	this->_input_file.open(input);
 }
 
-BitcoinExchange::~BitcoinExchange()
-{
-}
-
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &copy)
 {
 	(void)copy;
 }
+
+BitcoinExchange::~BitcoinExchange()
+{
+}
+
+// Operator Overloads
 
 BitcoinExchange	&BitcoinExchange::operator=(const BitcoinExchange &copy)
 {
 	(void)copy;
 	return (*this);
 }
+
+// Methods
 
 void	BitcoinExchange::csvToMap()
 {
@@ -56,7 +63,7 @@ void	BitcoinExchange::csvToMap()
 		
 		try
 		{
-			this->_db[date] = atof(value.c_str());
+			this->_db[date] = strtod(value.c_str(), NULL);
 		}
 		catch(std::exception &e) 
 		{
@@ -64,14 +71,12 @@ void	BitcoinExchange::csvToMap()
 		}
 	}
 	
-	cout << "Database: \n";
-	for (std::map<Date, float>::iterator it = this->_db.begin(); it != this->_db.end(); it++)
-	{
-		cout << "Date: " << it->first << '\n';
-		cout << "Time_t: " << it->first.getTime() << '\n';
-		// cout << "Value: " << it->second << '\n';
-	}
+	// for (std::map<Date, double>::iterator it = this->_db.begin(); it != this->_db.end(); it++)
+	// {
+	// 	cout << "Date: " << it->first << ", " << asctime(&it->first.getTm()) << " => " << it->second <<'\n';
+	// }
 }
+
 
 void	BitcoinExchange::output()
 {
@@ -83,20 +88,25 @@ void	BitcoinExchange::output()
 			size_t	sep = line.find(" | ");
 			if (sep == string::npos)
 				throw (badInputException(line));
-			Date	date(line.substr(0, sep));
-			float	value = atof(line.substr(sep + 3).c_str());
 
-			if (date.getTime() == -1)
-				throw (badInputException(date.getStr()));
+			Date	date(line.substr(0, sep));
+			string	value_token = line.substr(sep + 3);	
+			if (value_token.empty())
+				throw(badInputException(line));
+
+			char	*str;
+			float	value = strtod(value_token.c_str(), &str);
+			if (*str || value > std::numeric_limits<float>().max())
+				throw (badInputException(value_token));
+			if (!value)
+				throw (nullNumberException());
 			if (value < 0)
 				throw (negativeNumberException());
-			if (value > 1000)
+			if (value >= 1000)
 				throw (largeNumberException());
 
+			// cout << "Date found: " << this->find_date(date)->first << '\n';
 			float	new_value = value * this->find_date(date)->second;
-			// cout << "given value: " << value << '\n';
-			// cout << "lower bound value: " << this->_db.lower_bound(date)->second << '\n';
-			// cout << "lower bound date: " << this->_db.lower_bound(date)->first << '\n';
 			cout << date << " => " << value << " = " << new_value << "\n";
 		}
 		catch (std::exception &e)
@@ -112,6 +122,37 @@ std::map<Date, double>::iterator	BitcoinExchange::find_date(const Date &date)
 
 	if (it == this->_db.end())
 		throw(dateNotFoundException());
+	
+	return (--it);
+}
 
-	return (it);
+// Exceptions----------------------
+
+BitcoinExchange::badInputException::badInputException(string input) : _what("bad input => " + input) {}
+
+BitcoinExchange::badInputException::~badInputException() throw() {}
+
+const char	*BitcoinExchange::badInputException::what() const throw()
+{
+	return(this->_what.c_str());
+}
+
+const char	*BitcoinExchange::nullNumberException::what() const throw()
+{
+	return("number is zero");
+}
+
+const char	*BitcoinExchange::largeNumberException::what() const throw()
+{
+	return("too large a number");
+}
+
+const char	*BitcoinExchange::negativeNumberException::what() const throw()
+{
+	return("number is negative");
+}
+
+const char	*BitcoinExchange::dateNotFoundException::what() const throw()
+{	
+	return("date not in database");
 }

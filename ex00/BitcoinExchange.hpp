@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:04 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 13:55:24 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:02:34 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ class BitcoinExchange{
 		class badInputException : public std::exception
 		{
 			public:
-				badInputException(std::string input) : _what("bad input => " + input) {}
-				~badInputException() throw() {}
+				badInputException(std::string input);
+				~badInputException() throw();
 
-				const char	*what() const throw() {return this->_what.c_str();}
+				const char	*what() const throw();
 
 			private:
 				std::string	_what;
@@ -40,21 +40,25 @@ class BitcoinExchange{
 		class dateNotFoundException : public std::exception
 		{
 			public:
-				const char	*what() const throw() {
-					return("date not in database");
-				}
+				const char	*what() const throw();
+		};
+		
+		class nullNumberException : public std::exception
+		{
+			public:
+				const char	*what() const throw();
 		};
 
 		class largeNumberException : public std::exception
 		{
 			public:
-				const char	*what() const throw() {return "too large a number";}
+				const char	*what() const throw();
 		};
 
 		class negativeNumberException : public std::exception
 		{
 			public:
-				const char	*what() const throw() {return "number is negative";}
+				const char	*what() const throw();
 		};
 
 		void	output();

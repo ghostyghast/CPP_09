@@ -2,7 +2,7 @@ SRC_PATH = ./
 HEAD_PATH = ./
 OBJS_PATH = objs/
 
-SRC = $(wildcard *.cpp)
+SRC = BitcoinExchange.cpp Date.cpp main.cpp
 
 OBJS = $(patsubst $(SRCS_PATH)%.cpp, $(OBJS_PATH)%.o, $(SRC))
 DEPS = $(patsubst $(SRCS_PATH)%.cpp, $(OBJS_PATH)%.d, $(SRC))

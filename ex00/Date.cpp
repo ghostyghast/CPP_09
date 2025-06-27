@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:28:00 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/25 19:33:07 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:13:07 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 using std::string;
 
+// Constructors / Destructor
+
 Date::Date()
 {
 }
@@ -25,59 +27,41 @@ Date::Date(const std::string &date)
 {
 	this->_str = date;
 	this->_value = strToTime(date);
+	this->_tm = *localtime(&this->_value);
 }
 
-Date::Date(const time_t &date)
+Date::Date(const Date &copy)
 {
-	this->_value = date;
-	this->_str = timeToStr(date);
+	*this = copy;
 }
 
 Date::~Date()
 {
 }
 
-Date::Date(const Date &copy)
+// Operator overloads
+
+Date	&Date::operator=(const Date &copy)
 {
 	this->_str = copy.getStr();
 	this->_value = copy.getTime();
+	this->_tm = copy.getTm();	
+	return (*this);
 }
-
-string	Date::getStr(void) const
-{
-	return (this->_str);
-}
-
-time_t	Date::getTime(void) const
-{
-	return (this->_value);
-}
-
-// Date	&Date::operator=(const time_t &date)
-// {
-// 	this->_value = date;
-// 	this->_str = this->timeToStr(date);
-// }
-
-// Date	&Date::operator=(const string &date)
-// {
-// 	this->_str = date;
-// 	this->_value = strToTime(date);
-// }
 
 bool	Date::operator==(const Date &date) const
 {
-	return (this->_value == date._value);
+	return (this->_value == date.getTime());
 }
 
 bool	Date::operator<(const Date &date) const
 {
-	return (this->_value < date._value);
+	return (std::difftime(this->_value, date.getTime()) < 0);
 }
 
 bool	Date::operator>(const Date &date) const
 {
-	return (this->_value > date._value);
+	return (std::difftime(this->_value, date.getTime()) > 0);
 }
 
 std::ostream	&operator<<(std::ostream &stream, const Date &date)
@@ -86,17 +70,33 @@ std::ostream	&operator<<(std::ostream &stream, const Date &date)
 	return (stream);
 }
 
+// Setters / Getters
+
+const string	&Date::getStr(void) const
+{
+	return (this->_str);
+}
+
+const time_t	&Date::getTime(void) const
+{
+	return (this->_value);
+}
+
+const std::tm	&Date::getTm(void) const
+{
+	return (this->_tm);
+}
+
+// Methods
+
 time_t	Date::strToTime(const std::string str) const
 {
-	std::tm	time;
-	std::tm	new_time;
+	std::tm	time = {};
+	std::tm	new_time = {};
 	string *tokens = this->splitDate(str);
-
-	memset(&time, 0, sizeof(std::tm));
-		
+	
 	if (!tokens)
 		throw (invalidFormatException());
-
 	time.tm_year = strtod(tokens[0].c_str(), NULL) - 1900; 
 	time.tm_mon = strtod(tokens[1].c_str(), NULL) - 1;
 	time.tm_mday = strtod(tokens[2].c_str(), NULL);
@@ -109,19 +109,6 @@ time_t	Date::strToTime(const std::string str) const
 		|| time.tm_year != new_time.tm_year)
 		throw InvalidDateException();
 	return (mktime(&time));
-}
-
-string	Date::timeToStr(const time_t time) const
-{
-	std::stringstream ss;
-	std::tm *tm = localtime(&time);
-
-	if (!tm)
-		throw InvalidDateException();
-	
-	ss << tm->tm_year << '-' << tm->tm_mon << '-' << tm->tm_mday;
-	
-	return (ss.str());
 }
 
 string	*Date::splitDate(string date) const
@@ -148,7 +135,19 @@ string	*Date::splitDate(string date) const
 		tokens[i] = token;
 		if (pos != string::npos)
 			pos += 1;
-		date.erase(0, pos + 1);
+		date.erase(0, pos);
 	}
 	return tokens;
+}
+
+// Exceptions
+
+const char	*Date::invalidFormatException::what() const throw()
+{
+	return("invalid format given");
+}
+
+const char	*Date::InvalidDateException::what() const throw()
+{
+	return("invalid date given");
 }
