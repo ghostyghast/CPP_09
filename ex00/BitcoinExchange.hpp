@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:32:04 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 16:02:34 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:26:41 by pringles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class BitcoinExchange{
 				std::string	_what;
 		};
 
-		class dateNotFoundException : public std::exception
+		class dateTooOldException : public std::exception
 		{
 			public:
 				const char	*what() const throw();

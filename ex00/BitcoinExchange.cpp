@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 18:31:52 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 16:04:54 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:26:59 by pringles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ std::map<Date, double>::iterator	BitcoinExchange::find_date(const Date &date)
 {
 	std::map<Date, double>::iterator it = this->_db.upper_bound(date);
 
-	if (it == this->_db.end() || it == this->_db.begin())
-		throw(dateNotFoundException());
+	if (it == this->_db.begin())
+		throw(dateTooOldException());
 	
 	return (--it);
 }
@@ -152,7 +152,7 @@ const char	*BitcoinExchange::negativeNumberException::what() const throw()
 	return("number is negative");
 }
 
-const char	*BitcoinExchange::dateNotFoundException::what() const throw()
+const char	*BitcoinExchange::dateTooOldException::what() const throw()
 {	
-	return("date not in database");
+	return("date too old");
 }
