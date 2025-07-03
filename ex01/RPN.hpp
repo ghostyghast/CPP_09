@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:32:42 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 21:19:07 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:26:37 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #ifndef RPN_HPP
 # define RPN_HPP
 
-# include <deque>
+# include <stack>
 # include <string>
 
 class RPN{
@@ -49,9 +49,10 @@ class RPN{
 		int	calculate(std::string input);
 
 	private:
-		std::deque<int>	_queue;
+		std::stack<int>	_stack;
 
 		int		getPop();
+		int		getBottom();
 		void	operation(char c);
 		void	strToInt(std::string s);
 

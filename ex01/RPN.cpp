@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:34:46 by amaligno          #+#    #+#             */
-/*   Updated: 2025/06/27 21:23:16 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:30:25 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	RPN::calculate(string input)
 		else
 			throw (invalidinputException());
 	}
-	if (this->_queue.empty())
+	if (this->_stack.empty())
 		throw (invalidinputException());
-	return (this->_queue.back());
+	return (this->getBottom());
 }
 
 void	RPN::operation(char c)
@@ -70,18 +70,18 @@ void	RPN::operation(char c)
 	switch (c)
 	{
 		case '*':
-			this->_queue.push_front(value1 * value2);
+			this->_stack.push(value1 * value2);
 			break;
 		case '+':
-			this->_queue.push_front(value1 + value2);
+			this->_stack.push(value1 + value2);
 			break;
 		case '/':
 			if (value2 == 0)
 				throw(divisionByZeroException());
-			this->_queue.push_front(value1 / value2);
+			this->_stack.push(value1 / value2);
 			break;
 		case '-':
-			this->_queue.push_front(value1 - value2);
+			this->_stack.push(value1 - value2);
 			break;
 		default:
 			throw(invalidOperatorException());
@@ -90,13 +90,24 @@ void	RPN::operation(char c)
 
 int	RPN::getPop()
 {
-	if (this->_queue.empty())
+	if (this->_stack.empty())
 		throw (invalidinputException());
 
-	int	value = this->_queue.front();
-	this->_queue.pop_front();
+	int	value = this->_stack.top();
+	this->_stack.pop();
 
 	return(value);
+}
+
+int	RPN::getBottom()
+{
+	std::stack<int>	copy = this->_stack;
+
+	while (copy.size() > 1)
+	{
+		copy.pop();	
+	}
+	return (copy.top());
 }
 
 void	RPN::strToInt(string s)
@@ -107,7 +118,7 @@ void	RPN::strToInt(string s)
 		throw (invalidinputException());
 	if (value > 10)
 		throw (invalidValueException());
-	this->_queue.push_front(value);
+	this->_stack.push(value);
 }
 
 // Exceptions
