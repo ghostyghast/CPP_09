@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:32:42 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/03 15:26:37 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:38:20 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define RPN_HPP
 
 # include <stack>
+# include <list>
 # include <string>
 
 class RPN{
@@ -49,7 +50,7 @@ class RPN{
 		int	calculate(std::string input);
 
 	private:
-		std::stack<int>	_stack;
+		std::stack<int, std::list<int> >	_stack;
 
 		int		getPop();
 		int		getBottom();

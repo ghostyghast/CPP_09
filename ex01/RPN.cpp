@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:34:46 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/03 15:30:25 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:38:22 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	RPN::getPop()
 
 int	RPN::getBottom()
 {
-	std::stack<int>	copy = this->_stack;
+	std::stack<int, std::list<int> >	copy = this->_stack;
 
 	while (copy.size() > 1)
 	{
