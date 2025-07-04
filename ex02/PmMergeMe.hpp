@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmMergeMe.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:58 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/04 14:56:22 by pringles         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:22:37 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <cstdlib>
 # include <vector>
-# include <list>
+# include <deque>
 
 class PmMergeMe{
 	public:
@@ -35,32 +35,17 @@ class PmMergeMe{
 
 	private:
 
-		static	std::vector<int>	_vector;
-		static	std::list<int>		_list;
 		static	int					_comparisons;
 
-		template<typename T> static void	parse(T &container, char **values){
-			for (size_t	i  = 0; values[0]; i++)
-			{
-				char	*end;
-				int		value;
-
-				value = strtol(values[0], &end);
-				if (value < 0)
-					throw (negativeValueException());
-				container[i] = value;
-				if (*end)
-					throw (invalidInputException());
-			}
-		}
-	
-		static void							vectorSort();
-		static void							listSort();
+		template <typename T> static void	parse(T &container, char **values);
+		template <typename T> static void	mergeInsertion(T &container);
 		
 		PmMergeMe();
 		PmMergeMe(const PmMergeMe &copy);
 		~PmMergeMe();
 		PmMergeMe &operator=(const PmMergeMe &copy);
 };
+
+# include "PmMergeMe.tpp"
 
 #endif
