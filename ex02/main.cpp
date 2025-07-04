@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:37 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/04 14:51:52 by pringles         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:46:54 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ using std::cerr;
 
 int main(int argc, char **argv)
 {
+	argv[argc] = NULL;
     try
     {
         PmMergeMe::sort(argv);
