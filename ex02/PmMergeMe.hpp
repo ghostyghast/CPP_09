@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmMergeMe.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:58 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/02 21:37:49 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:56:22 by pringles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class PmMergeMe{
 			public:
 				const char	*what() const throw();
 		};
-	
+
 	private:
 
 		static	std::vector<int>	_vector;
