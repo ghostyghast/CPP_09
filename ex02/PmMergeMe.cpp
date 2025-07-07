@@ -6,11 +6,12 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 18:49:28 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/04 18:45:11 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:54:53 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmMergeMe.hpp"
+#include <cmath>
 
 int	PmMergeMe::_comparisons = 0;
 
@@ -79,4 +80,9 @@ bool	PmMergeMe::xBiggerThanY(int x, int y)
 {
 	_comparisons += 1;
 	return (x > y);
+}
+
+int	PmMergeMe::jacobsthalNumber(int n)
+{
+	return round((pow(2, n+1) + pow(-1, n)) / 3);
 }

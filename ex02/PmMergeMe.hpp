@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:58 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/04 18:50:34 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:51:25 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 class PmMergeMe{
 	public:
 		static	void	sort(char **values);
+		static	int							jacobsthalNumber(int n);
 
 		class negativeValueException : public std::exception
 		{
@@ -41,6 +42,7 @@ class PmMergeMe{
 		template <typename T> static void	runContainerSort(std::string container_name, char **argv);
 		template <typename T> static void	parse(T &container, char **values);
 		template <typename T> static T		mergeInsertion(T &sequence);
+		template <typename T> static void	binaryInsertion(T &container, int value);
 		
 		static bool							xBiggerThanY(int x, int y);
 

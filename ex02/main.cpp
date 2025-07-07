@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:37 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/04 18:46:54 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:13:16 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,8 @@ int main(int argc, char **argv)
     {
         cerr << "Error: " << e.what() << '\n';
     }
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	cout << i << " => " << PmMergeMe::jacobsthalNumber(i) << '\n';
+	// }
 }
