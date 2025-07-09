@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:45:34 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/07 22:13:51 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:36:01 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 # include "PmMergeMe.hpp"
 # include <ctime>
 # include <cmath>
+# include <algorithm>
 # include <iostream>
 
 using std::cout;
+using std::pair;
 
 template <typename T>
 void	PmMergeMe::parse(T &container, char **values)
@@ -37,12 +39,12 @@ void	PmMergeMe::parse(T &container, char **values)
 	}
 }
 
-template <typename T>
+template <class C>
 void	PmMergeMe::runContainerSort(std::string container_name, char **values)
 {	
 	clock_t	start = 0;
 	clock_t	end = 0;
-	T		sequence;
+	C	sequence;
 	
 	_comparisons = 0;
 	parse(sequence, values);
@@ -60,14 +62,13 @@ void	PmMergeMe::runContainerSort(std::string container_name, char **values)
 	cout << "Using " << _comparisons << " comparisons\n";
 }
 
-template <typename T>
-T	PmMergeMe::mergeInsertion(T &sequence)
+template <template <typename, typename > class C, typename alloc> 
+C<int, alloc>	PmMergeMe::mergeInsertion(C<int, alloc> &sequence)
 {
-	size_t	size = sequence.size();
-	T		a_list;
-	T		b_list;
-	T		main;
-	T		indexes;
+	size_t						size = sequence.size();
+	C<int, alloc>				a_list;
+	C<pair<int, int>, alloc>	b_list;
+	C<int, alloc>				main;
 	
 	if (size <= 1)
 		return (sequence);
@@ -80,31 +81,45 @@ T	PmMergeMe::mergeInsertion(T &sequence)
 		if (xBiggerThanY(b, a))
 			std::swap(a, b);
 		a_list.push_back(a);
-		b_list.push_back(b);
+		b_list.push_back(pair<int, int>(b, a));
 	}
 
 	if (size % 2 == 1)
-		b_list.push_back(sequence.back());
+		b_list.push_back(pair<int, int>(sequence.back(), -1));
 
 	main = mergeInsertion(a_list);
-
-	main.insert(main.begin(), b_list[0]);
-	// b_list.erase(main.begin());
-	for (size_t i = 1; i <= b_list.size(); i++)
-	{
-		int	j_num = jacobsthalNumber(i) - 1;
-		binaryInsertion(main, b_list[j_num]);
-	}
+	
+	insertBToA(main, b_list);
 	return (main);
 }
 
-template <typename T>
-void	PmMergeMe::binaryInsertion(T &container, int value)
+template <class A, class B>
+void	PmMergeMe::insertBToA(A &main, B &b_list)
 {
+	A		j_list = jacobsthalList<A>(b_list.size());
+
+	main.insert(main.begin(), b_list[0].first);
+	for (size_t i = 1; i < j_list.size(); i++)
+	{
+		for (int pos = j_list[i]; pos != j_list[i - 1]; pos--)
+			binaryInsertion(main, b_list[pos]);
+	}
+	for (int i = b_list.size() - 1; i != j_list.back(); i--)
+		binaryInsertion(main, b_list[i]);
+}
+
+template <class C>
+void	PmMergeMe::binaryInsertion(C &container, pair<int, int> b_a)
+{
+	int		value = b_a.first;
 	size_t	low = 0;
 	size_t 	middle = 0;
-	size_t	high = container.size() - 1;
+	size_t	high;
 
+	if (b_a.second == -1)
+		high = container.size();
+	else
+		high = std::distance(container.begin(), std::find(container.begin(), container.end(), b_a.second));
 	while (low != high)
 	{
 		middle = static_cast<size_t>(std::ceil((high - low) / 2) + low);
@@ -114,6 +129,21 @@ void	PmMergeMe::binaryInsertion(T &container, int value)
 			high = middle;
 	}
 	container.insert(container.begin() + low, value);
+}
+
+template <class C>
+C	PmMergeMe::jacobsthalList(int size)
+{
+	C	list;
+
+	for (int i = 1; i < size; i++)
+	{
+		int	j_num = jacobsthalNumber(i) - 1;
+		if (j_num >= size)
+			break ;
+		list.push_back(j_num);
+	}
+	return (list);
 }
 
 #endif

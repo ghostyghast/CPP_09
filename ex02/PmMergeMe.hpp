@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:58 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/07 21:51:25 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:28:19 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 
 # include <cstdlib>
 # include <vector>
-# include <string>
 # include <deque>
+# include <utility>
+# include <string>
 
 class PmMergeMe{
 	public:
 		static	void	sort(char **values);
-		static	int							jacobsthalNumber(int n);
+		static	int		jacobsthalNumber(int n);
+		template <class C> static void				binaryInsertion(C &container, std::pair<int, int>);
 
 		class negativeValueException : public std::exception
 		{
@@ -39,12 +41,14 @@ class PmMergeMe{
 
 		static	int	_comparisons;
 		
-		template <typename T> static void	runContainerSort(std::string container_name, char **argv);
-		template <typename T> static void	parse(T &container, char **values);
-		template <typename T> static T		mergeInsertion(T &sequence);
-		template <typename T> static void	binaryInsertion(T &container, int value);
-		
-		static bool							xBiggerThanY(int x, int y);
+		template <class C> static void								runContainerSort(std::string container_name, char **values);
+		template <class C> static void								parse(C &container, char **values);
+		template <template <typename, typename >class C, typename alloc> static C<int, alloc>
+											mergeInsertion(C<int , alloc> &sequence);
+	
+		template <class A, class B> static void		insertBToA(A &main, B &b_list);
+		template <class C> static C					jacobsthalList(int size);
+		static bool									xBiggerThanY(int x, int y);
 
 		PmMergeMe();
 		PmMergeMe(const PmMergeMe &copy);
