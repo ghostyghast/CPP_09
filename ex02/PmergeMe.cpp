@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmMergeMe.cpp                                      :+:      :+:    :+:   */
+/*   PmergeMe.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,22 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmMergeMe.hpp"
+#include "PmergeMe.hpp"
 #include <cmath>
 
-int	PmMergeMe::_comparisons = 0;
+int	PmergeMe::_comparisons = 0;
 
 // Constructors / Destructor
 
-PmMergeMe::PmMergeMe() {}
+PmergeMe::PmergeMe() {}
 
-PmMergeMe::PmMergeMe(const PmMergeMe &copy) {(void)copy;}
+PmergeMe::PmergeMe(const PmergeMe &copy) {(void)copy;}
 
-PmMergeMe::~PmMergeMe() {}
+PmergeMe::~PmergeMe() {}
 
 // Operator Overloads
 
-PmMergeMe	&PmMergeMe::operator=(const PmMergeMe &copy)
+PmergeMe	&PmergeMe::operator=(const PmergeMe &copy)
 {
 	(void)copy;
 	return (*this);
@@ -59,30 +59,30 @@ std::ostream	&operator<<(std::ostream &os, const std::deque<int> &d)
 
 // Methods
 
-void	PmMergeMe::sort(char **values)
+void	PmergeMe::sort(char **values)
 {
 	runContainerSort<std::vector<int> >("std::vector", values);
 	runContainerSort<std::deque<int> >("std::deque", values);
 }
 
-const char	*PmMergeMe::negativeValueException::what(void) const throw()
+const char	*PmergeMe::negativeValueException::what(void) const throw()
 {
     return("values must be positive");
 }
 
-const char	*PmMergeMe::invalidInputException::what(void) const throw()
+const char	*PmergeMe::invalidInputException::what(void) const throw()
 {
     return("invalid input");
 }
 
 // return x > y, and increment _comparisons
-bool	PmMergeMe::xBiggerThanY(int x, int y)
+bool	PmergeMe::xBiggerThanY(int x, int y)
 {
 	_comparisons += 1;
 	return (x > y);
 }
 
-int	PmMergeMe::jacobsthalNumber(int n)
+int	PmergeMe::jacobsthalNumber(int n)
 {
 	return round((pow(2, n+1) + pow(-1, n)) / 3);
 }

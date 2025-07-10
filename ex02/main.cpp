@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:37 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/09 20:40:30 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:24:55 by pringles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PmMergeMe.hpp"
+#include "PmergeMe.hpp"
 #include <iostream>
 
 using std::cout;
@@ -21,19 +21,19 @@ int main(int argc, char **argv)
 	argv[argc] = NULL;
     try
     {
-        PmMergeMe::sort(argv);
+        PmergeMe::sort(argv);
     }
     catch (std::exception   &e)
     {
         cerr << "Error: " << e.what() << '\n';
     }
-	for (int i = 1; i < 10; i++)
-	{
-		cout << i << " => " << PmMergeMe::jacobsthalNumber(i) << '\n';
-	}
+	// for (int i = 1; i < 10; i++)
+	// {
+	// 	cout << i << " => " << PmergeMe::jacobsthalNumber(i) << '\n';
+	// }
 	// int arr[] = {0, 2, 3, 4, 10};
 	// std::vector<int> v(arr, arr + 5);
-	// PmMergeMe::binaryInsertion(v, std::pair<int, int>(1, 10));
+	// PmergeMe::binaryInsertion(v, std::pair<int, int>(1, 10));
 	// cout << "vector: ";
 	// for (size_t i = 0; i + 1 < v.size(); i++)
 	// 	cout << v[i] << ", ";

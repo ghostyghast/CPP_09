@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmMergeMe.tpp                                      :+:      :+:    :+:   */
+/*   PmergeMe.tpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pringles <pringles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:45:34 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/09 20:36:01 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:22:53 by pringles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMMERGEME_TPP
-# define PMMERGEME_TPP
+#ifndef PmergeMe_TPP
+# define PmergeMe_TPP
 
-# include "PmMergeMe.hpp"
+# include "PmergeMe.hpp"
 # include <ctime>
 # include <cmath>
 # include <algorithm>
@@ -23,7 +23,7 @@ using std::cout;
 using std::pair;
 
 template <typename T>
-void	PmMergeMe::parse(T &container, char **values)
+void	PmergeMe::parse(T &container, char **values)
 {
 	for (size_t	i  = 1; values[i]; i++)
 	{
@@ -40,7 +40,7 @@ void	PmMergeMe::parse(T &container, char **values)
 }
 
 template <class C>
-void	PmMergeMe::runContainerSort(std::string container_name, char **values)
+void	PmergeMe::runContainerSort(std::string container_name, char **values)
 {	
 	clock_t	start = 0;
 	clock_t	end = 0;
@@ -58,12 +58,12 @@ void	PmMergeMe::runContainerSort(std::string container_name, char **values)
 	cout << "After: " << sequence << "\n";
 
 	cout << std::fixed;
-	cout << container_name << " sorting time for range of [" << sequence.size() << "] elements : " << 1000.0 * (end - start) / CLOCKS_PER_SEC << "us\n";
+	cout << container_name << " sorting time for range of [" << sequence.size() << "] elements : " << 1000.0 * (end - start) / CLOCKS_PER_SEC << "ms\n";
 	cout << "Using " << _comparisons << " comparisons\n";
 }
 
 template <template <typename, typename > class C, typename alloc> 
-C<int, alloc>	PmMergeMe::mergeInsertion(C<int, alloc> &sequence)
+C<int, alloc>	PmergeMe::mergeInsertion(C<int, alloc> &sequence)
 {
 	size_t						size = sequence.size();
 	C<int, alloc>				a_list;
@@ -94,22 +94,24 @@ C<int, alloc>	PmMergeMe::mergeInsertion(C<int, alloc> &sequence)
 }
 
 template <class A, class B>
-void	PmMergeMe::insertBToA(A &main, B &b_list)
+void	PmergeMe::insertBToA(A &main, B &b_list)
 {
 	A		j_list = jacobsthalList<A>(b_list.size());
 
 	main.insert(main.begin(), b_list[0].first);
-	for (size_t i = 1; i < j_list.size(); i++)
+	if (j_list.size() == 0)
+		return ;
+	for (size_t i = 2; i < j_list.size(); i++)
 	{
 		for (int pos = j_list[i]; pos != j_list[i - 1]; pos--)
 			binaryInsertion(main, b_list[pos]);
 	}
-	for (int i = b_list.size() - 1; i != j_list.back(); i--)
+	for (int i = b_list.size() - 1; i > j_list.back(); i--)
 		binaryInsertion(main, b_list[i]);
 }
 
 template <class C>
-void	PmMergeMe::binaryInsertion(C &container, pair<int, int> b_a)
+void	PmergeMe::binaryInsertion(C &container, pair<int, int> b_a)
 {
 	int		value = b_a.first;
 	size_t	low = 0;
@@ -132,7 +134,7 @@ void	PmMergeMe::binaryInsertion(C &container, pair<int, int> b_a)
 }
 
 template <class C>
-C	PmMergeMe::jacobsthalList(int size)
+C	PmergeMe::jacobsthalList(int size)
 {
 	C	list;
 

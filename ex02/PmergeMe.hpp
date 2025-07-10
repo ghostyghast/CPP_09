@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PmMergeMe.hpp                                      :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMMERGEME_HPP
-# define PMMERGEME_HPP
+#ifndef PmergeMe_HPP
+# define PmergeMe_HPP
 
 # include <cstdlib>
 # include <vector>
@@ -19,7 +19,7 @@
 # include <utility>
 # include <string>
 
-class PmMergeMe{
+class PmergeMe{
 	public:
 		static	void	sort(char **values);
 		static	int		jacobsthalNumber(int n);
@@ -50,15 +50,15 @@ class PmMergeMe{
 		template <class C> static C					jacobsthalList(int size);
 		static bool									xBiggerThanY(int x, int y);
 
-		PmMergeMe();
-		PmMergeMe(const PmMergeMe &copy);
-		~PmMergeMe();
-		PmMergeMe &operator=(const PmMergeMe &copy);
+		PmergeMe();
+		PmergeMe(const PmergeMe &copy);
+		~PmergeMe();
+		PmergeMe &operator=(const PmergeMe &copy);
 };
 
 std::ostream	&operator<<(std::ostream &os, const std::vector<int> &v);
 std::ostream	&operator<<(std::ostream &os, const std::deque<int> &v);
 
-# include "PmMergeMe.tpp"
+# include "PmergeMe.tpp"
 
 #endif
