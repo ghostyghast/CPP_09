@@ -23,7 +23,7 @@ class PmergeMe{
 	public:
 		static	void	sort(char **values);
 		static	int		jacobsthalNumber(int n);
-		template <class C> static void				binaryInsertion(C &container, std::pair<int, int>);
+		template <class C> static void				binaryInsertion(C &container, std::pair<int, int> &b_a);
 
 		class negativeValueException : public std::exception
 		{
@@ -41,14 +41,14 @@ class PmergeMe{
 
 		static	int	_comparisons;
 		
-		template <class C> static void								runContainerSort(std::string container_name, char **values);
-		template <class C> static void								parse(C &container, char **values);
-		template <template <typename, typename >class C, typename alloc> static C<int, alloc>
-											mergeInsertion(C<int , alloc> &sequence);
+		template <class C> static void			runContainerSort(std::string container_name, char **values);
+		template <class C> static void			parse(C &container, char **values);
+		template <template <typename, typename >class C, typename alloc>
+		static C<int, alloc>					mergeInsertion(C<int , alloc> &sequence);
 	
-		template <class A, class B> static void		insertBToA(A &main, B &b_list);
-		template <class C> static C					jacobsthalList(int size);
-		static bool									xBiggerThanY(int x, int y);
+		template <class A, class B> static void	insertBToA(A &main, B &b_list);
+		template <class C> static C				jacobsthalList(int size);
+		static bool								xBiggerThanY(int x, int y);
 
 		PmergeMe();
 		PmergeMe(const PmergeMe &copy);

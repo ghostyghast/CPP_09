@@ -98,10 +98,17 @@ void	PmergeMe::insertBToA(A &main, B &b_list)
 {
 	A		j_list = jacobsthalList<A>(b_list.size());
 
-	main.insert(main.begin(), b_list[0].first);
+	for (size_t i = 0; i < b_list.size(); i++)
+	{
+		if (main[0] == b_list[i].second)
+		{
+			main.insert(main.begin(), b_list[i].first);
+			break ;
+		}
+	}
 	if (j_list.size() == 0)
 		return ;
-	for (size_t i = 2; i < j_list.size(); i++)
+	for (size_t i = 1; i < j_list.size(); i++)
 	{
 		for (int pos = j_list[i]; pos != j_list[i - 1]; pos--)
 			binaryInsertion(main, b_list[pos]);
@@ -111,7 +118,7 @@ void	PmergeMe::insertBToA(A &main, B &b_list)
 }
 
 template <class C>
-void	PmergeMe::binaryInsertion(C &container, pair<int, int> b_a)
+void	PmergeMe::binaryInsertion(C &container, pair<int, int> &b_a)
 {
 	int		value = b_a.first;
 	size_t	low = 0;
@@ -130,6 +137,7 @@ void	PmergeMe::binaryInsertion(C &container, pair<int, int> b_a)
 		else
 			high = middle;
 	}
+	// b_a.first = -1;
 	container.insert(container.begin() + low, value);
 }
 
@@ -138,7 +146,7 @@ C	PmergeMe::jacobsthalList(int size)
 {
 	C	list;
 
-	for (int i = 1; i < size; i++)
+	for (int i = 1; i <= size; i++)
 	{
 		int	j_num = jacobsthalNumber(i) - 1;
 		if (j_num >= size)
