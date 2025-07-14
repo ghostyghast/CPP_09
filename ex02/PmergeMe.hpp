@@ -23,7 +23,7 @@ class PmergeMe{
 	public:
 		static	void	sort(char **values);
 		static	int		jacobsthalNumber(int n);
-		template <class C> static void				binaryInsertion(C &container, std::pair<int, int> &b_a);
+		template <class C> static void				binaryInsertion(C &container, std::pair<int, int> &a_b);
 
 		class negativeValueException : public std::exception
 		{
@@ -46,7 +46,7 @@ class PmergeMe{
 		template <template <typename, typename >class C, typename alloc>
 		static C<int, alloc>					mergeInsertion(C<int , alloc> &sequence);
 	
-		template <class A, class B> static void	insertBToA(A &main, B &b_list);
+		template <class A, class B> static void	insertBToA(A &main, B &pend);
 		template <class C> static C				jacobsthalList(int size);
 		static bool								xBiggerThanY(int x, int y);
 
@@ -56,8 +56,18 @@ class PmergeMe{
 		PmergeMe &operator=(const PmergeMe &copy);
 };
 
-std::ostream	&operator<<(std::ostream &os, const std::vector<int> &v);
-std::ostream	&operator<<(std::ostream &os, const std::deque<int> &v);
+std::ostream			&operator<<(std::ostream &os, const std::vector<int> &v);
+std::ostream			&operator<<(std::ostream &os, const std::deque<int> &v);
+
+template <typename T> bool	is_sorted(const T &start, const T &end)
+{
+	for (T it = start; it + 1 != end; it++)
+	{
+		if (*it > *(it + 1))
+			return (false);
+	}
+	return (true);
+}
 
 # include "PmergeMe.tpp"
 

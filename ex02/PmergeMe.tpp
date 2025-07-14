@@ -60,15 +60,20 @@ void	PmergeMe::runContainerSort(std::string container_name, char **values)
 	cout << std::fixed;
 	cout << container_name << " sorting time for range of [" << sequence.size() << "] elements : " << 1000.0 * (end - start) / CLOCKS_PER_SEC << "ms\n";
 	cout << "Using " << _comparisons << " comparisons\n";
+	cout << "Sequence is ";
+	if (is_sorted(sequence.begin(), sequence.end()))
+		cout << "sorted\n";
+	else
+		cout << "not sorted\n";
 }
 
 template <template <typename, typename > class C, typename alloc> 
 C<int, alloc>	PmergeMe::mergeInsertion(C<int, alloc> &sequence)
 {
-	size_t						size = sequence.size();
-	C<int, alloc>				a_list;
-	C<pair<int, int>, alloc>	b_list;
-	C<int, alloc>				main;
+	C<int, alloc>										main;
+	C<pair<int, int>, std::allocator<pair<int, int> > >	pend;
+	C<pair<int, int>, std::allocator<pair<int, int> > > pairs;
+	size_t												size = sequence.size();
 	
 	if (size <= 1)
 		return (sequence);
@@ -80,55 +85,59 @@ C<int, alloc>	PmergeMe::mergeInsertion(C<int, alloc> &sequence)
 		
 		if (xBiggerThanY(b, a))
 			std::swap(a, b);
-		a_list.push_back(a);
-		b_list.push_back(pair<int, int>(b, a));
+		pairs.push_back(std::make_pair(a, b));
+	}
+
+	for (size_t i = 0; i < pairs.size(); i++)
+		main.push_back(pairs[i].first);
+
+	main = mergeInsertion(main);
+	
+	for (size_t i = 0; i < main.size(); i++)
+	{
+		for (size_t j = 0; j < pairs.size(); j++) 
+		{
+			if (main[i] == pairs[j].first)
+				pend.push_back(pairs[j]);
+		}
 	}
 
 	if (size % 2 == 1)
-		b_list.push_back(pair<int, int>(sequence.back(), -1));
+		pend.push_back(std::make_pair(-1, sequence[size - 1]));
 
-	main = mergeInsertion(a_list);
-	
-	insertBToA(main, b_list);
+	insertBToA(main, pend);
 	return (main);
 }
 
 template <class A, class B>
-void	PmergeMe::insertBToA(A &main, B &b_list)
+void	PmergeMe::insertBToA(A &main, B &pend)
 {
-	A		j_list = jacobsthalList<A>(b_list.size());
+	A		j_list = jacobsthalList<A>(pend.size());
 
-	for (size_t i = 0; i < b_list.size(); i++)
-	{
-		if (main[0] == b_list[i].second)
-		{
-			main.insert(main.begin(), b_list[i].first);
-			break ;
-		}
-	}
+	main.insert(main.begin(), pend[0].second);
 	if (j_list.size() == 0)
 		return ;
 	for (size_t i = 1; i < j_list.size(); i++)
 	{
 		for (int pos = j_list[i]; pos != j_list[i - 1]; pos--)
-			binaryInsertion(main, b_list[pos]);
+			binaryInsertion(main, pend[pos]);
 	}
-	for (int i = b_list.size() - 1; i > j_list.back(); i--)
-		binaryInsertion(main, b_list[i]);
+	for (int i = pend.size() - 1; i > j_list.back(); i--)
+		binaryInsertion(main, pend[i]);
 }
 
 template <class C>
-void	PmergeMe::binaryInsertion(C &container, pair<int, int> &b_a)
+void	PmergeMe::binaryInsertion(C &container, pair<int, int> &a_b)
 {
-	int		value = b_a.first;
+	int		value = a_b.second;
 	size_t	low = 0;
 	size_t 	middle = 0;
 	size_t	high;
 
-	if (b_a.second == -1)
+	if (a_b.first == -1)
 		high = container.size();
 	else
-		high = std::distance(container.begin(), std::find(container.begin(), container.end(), b_a.second));
+		high = std::distance(container.begin(), std::find(container.begin(), container.end(), a_b.first));
 	while (low != high)
 	{
 		middle = static_cast<size_t>(std::ceil((high - low) / 2) + low);
@@ -137,7 +146,6 @@ void	PmergeMe::binaryInsertion(C &container, pair<int, int> &b_a)
 		else
 			high = middle;
 	}
-	// b_a.first = -1;
 	container.insert(container.begin() + low, value);
 }
 
