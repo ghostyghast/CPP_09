@@ -6,7 +6,7 @@
 /*   By: amaligno <amaligno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:25:37 by amaligno          #+#    #+#             */
-/*   Updated: 2025/07/14 18:03:57 by amaligno         ###   ########.fr       */
+/*   Updated: 2025/07/14 21:59:25 by amaligno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ using std::cerr;
 
 int main(int argc, char **argv)
 {
+	if (argc <= 1)
+	{
+		cerr << "Error: not enough arguments\n";
+		return (1);
+	}
 	argv[argc] = NULL;
     try
     {
@@ -26,16 +31,6 @@ int main(int argc, char **argv)
     catch (std::exception   &e)
     {
         cerr << "Error: " << e.what() << '\n';
+		return (1);
     }
-	// for (int i = 1; i < 10; i++)
-	// {
-	// 	cout << i << " => " << PmergeMe::jacobsthalNumber(i) << '\n';
-	// }
-	// int arr[] = {0, 2, 3, 4, 10};
-	// std::vector<int> v(arr, arr + 5);
-	// PmergeMe::binaryInsertion(v, std::pair<int, int>(1, 10));
-	// cout << "vector: ";
-	// for (size_t i = 0; i + 1 < v.size(); i++)
-	// 	cout << v[i] << ", ";
-	// cout << v.back() << '\n';
 }
