@@ -78,7 +78,7 @@ const char	*PmergeMe::invalidInputException::what(void) const throw()
 // return x > y, and increment _comparisons
 bool	PmergeMe::xBiggerThanY(int x, int y)
 {
-	_comparisons += 1;
+	PmergeMe::_comparisons += 1;
 	return (x > y);
 }
 

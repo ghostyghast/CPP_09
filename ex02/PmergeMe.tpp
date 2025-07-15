@@ -46,7 +46,7 @@ void	PmergeMe::runContainerSort(std::string container_name, char **values)
 	clock_t	end = 0;
 	C	sequence;
 	
-	_comparisons = 0;
+	PmergeMe::_comparisons = 0;
 	parse(sequence, values);
 
 	cout << "Before: " << sequence << "\n";
