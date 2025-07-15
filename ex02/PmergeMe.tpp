@@ -98,7 +98,10 @@ C<int, alloc>	PmergeMe::mergeInsertion(C<int, alloc> &sequence)
 		for (size_t j = 0; j < pairs.size(); j++) 
 		{
 			if (main[i] == pairs[j].first)
+			{
 				pend.push_back(pairs[j]);
+				break ;
+			}
 		}
 	}
 
