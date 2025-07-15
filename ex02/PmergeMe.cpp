@@ -62,6 +62,7 @@ std::ostream	&operator<<(std::ostream &os, const std::deque<int> &d)
 void	PmergeMe::sort(char **values)
 {
 	runContainerSort<std::vector<int> >("std::vector", values);
+	cout << "------------------------\n";
 	runContainerSort<std::deque<int> >("std::deque", values);
 }
 
